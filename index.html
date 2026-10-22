@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Моё сердечко ❤️</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: linear-gradient(135deg, #fff0f5, #ffe4ec);
+      font-family: Arial, sans-serif;
+      color: #9d526d;
+    }
+
+    .card {
+      width: 90%;
+      max-width: 360px;
+      padding: 35px 22px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid #f9d5e1;
+      border-radius: 25px;
+      box-shadow: 0 10px 35px #d88ba51c;
+    }
+
+    .small-text {
+      color: #c78ba0;
+      font-size: 12px;
+      letter-spacing: 3px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 25px;
+      font-weight: 500;
+      color: #c66d8a;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #b98999;
+    }
+
+    .heart {
+      display: inline-block;
+      margin: 25px 0;
+      font-size: 100px;
+      line-height: 1.2;
+      cursor: pointer;
+      user-select: none;
+      filter: drop-shadow(0 5px 8px #e9a0b866);
+      animation: heartbeat 1.3s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      15% { transform: scale(1.12); }
+      30% { transform: scale(1); }
+      45% { transform: scale(1.08); }
+      60% { transform: scale(1); }
+    }
+
+    .message {
+      min-height: 48px;
+      margin: 10px 0 20px;
+      font-size: 17px;
+      line-height: 1.5;
+      color: #a85d78;
+    }
+
+    button {
+      border: none;
+      border-radius: 30px;
+      padding: 13px 24px;
+      background: #e9a0b8;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    button:active {
+      transform: scale(0.96);
+    }
+
+    button:hover {
+      background: #d987a4;
+    }
+
+    .footer {
+      margin-top: 23px;
+      font-size: 12px;
+      color: #c69aa9;
+    }
+
+    .floating-heart {
+      position: fixed;
+      bottom: -30px;
+      z-index: 2;
+      color: #e99ab4;
+      pointer-events: none;
+      animation: float-up 4s linear forwards;
+    }
+
+    @keyframes float-up {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      15% { opacity: 0.8; }
+      100% {
+        transform: translateY(-110vh) rotate(25deg);
+        opacity: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .heart {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card">
+    <div class="small-text">♡ ДЛЯ ТЕБЯ ♡</div>
+
+    <h1>Ты особенная ❤️</h1>
+    <p class="subtitle">Маленькое послание от сердца</p>
+
+    <div class="heart" id="heart">❤️</div>
+
+    <p class="message" id="message">
+      Ты делаешь этот мир прекраснее 💗
+    </p>
+
+    <button id="loveButton">Нажми на меня ♡</button>
+
+    <div class="footer">С теплом и любовью ♡</div>
+  </main>
+
+  <script>
+    const heart = document.getElementById("heart");
+    const message = document.getElementById("message");
+    const button = document.getElementById("loveButton");
+
+    const messages = [
+      "Ты делаешь этот мир прекраснее 💗",
+      "Улыбайся чаще, тебе очень идёт 😊",
+      "Ты — чья-то самая тёплая мысль ❤️",
+      "Пусть каждый день приносит счастье 🌸",
+      "Ты заслуживаешь самой красивой любви 💕"
+    ];
+
+    let index = 0;
+
+    button.addEventListener("click", () => {
+      index = (index + 1) % messages.length;
+      message.textContent = messages[index];
+      createHearts(7);
+    });
+
+    heart.addEventListener("click", () => {
+      createHearts(12);
+      heart.animate(
+        [
+          { transform: "scale(1)" },
+          { transform: "scale(1.3)" },
+          { transform: "scale(1)" }
+        ],
+        { duration: 350 }
+      );
+    });
+    function createHearts(count) {
+      for (let i = 0; i < count; i++) {
+        const item = document.createElement("span");
+        item.className = "floating-heart";
+        item.textContent = Math.random() > 0.5 ? "♡" : "♥";
+
+        item.style.left = Math.random() * 100 + "vw";
+        item.style.fontSize = (14 + Math.random() * 18) + "px";
+        item.style.animationDuration = (3 + Math.random() * 2) + "s";
+
+        document.body.appendChild(item);
+
+        item.addEventListener("animationend", () => {
+          item.remove();
+        });
+      }
+    }
+
+    // Иногда появляются маленькие сердечки
+    setInterval(() => {
+      if (Math.random() > 0.45) {
+        createHearts(1);
+      }
+    }, 1800);
+  </script>
+</body>
+</html>
